@@ -4,6 +4,7 @@ QT       -= gui
 TARGET = fileserver
 CONFIG   += console
 CONFIG   -= app_bundle
+OUTPUT += console
 
 TEMPLATE = app
 
