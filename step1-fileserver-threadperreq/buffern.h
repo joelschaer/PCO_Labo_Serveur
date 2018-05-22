@@ -1,3 +1,14 @@
+/*******************************
+** BufferN
+** buffern.h/.cpp
+**
+** Yann Lederrey and Joel Schär
+**
+** Generic buffer extending AbstractBuffer using an Hoare Monitor system for mutual exclusion
+** hangling. It uses an elements pointed table for saving it's content.
+**
+**/
+
 #ifndef BUFFERN_H
 #define BUFFERN_H
 
@@ -5,7 +16,8 @@
 #include "hoaremonitor.h"
 
 
-template<typename T> class BufferN : public AbstractBuffer<T>, public HoareMonitor
+template<typename T>
+class BufferN : public AbstractBuffer<T>, public HoareMonitor
 {
 protected:
     T *elements;
@@ -15,15 +27,16 @@ protected:
 
 public:
     BufferN(unsigned int size){
-        if((elements = new T[bufferSize]) != 0){
+        if((elements = new T[size]) != 0){
             writePointer = readPointer = nbElements = 0;
             nbWaitingProd = nbWaitingConso = 0;
             bufferSize = size;
-            return;
         }
-        //throw NoInitTamponN;
     }
 
+    /*
+     * adding an element to the buffer
+     */
     void put(T item){
 
         monitorIn();
@@ -39,6 +52,9 @@ public:
         monitorOut();
     }
 
+    /*
+     * taking an element out of the buffer
+     */
     T get (void){
         T item;
 
@@ -47,12 +63,14 @@ public:
         if(nbElements == 0){
             wait(notEmpty);
         }
+
         item = elements[readPointer];
         readPointer = (readPointer + 1) % bufferSize;
         nbElements --;
 
         signal(notFull);
         monitorOut();
+
         return item;
     }
 };

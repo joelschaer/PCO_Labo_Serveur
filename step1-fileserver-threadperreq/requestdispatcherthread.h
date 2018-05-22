@@ -1,3 +1,13 @@
+/*******************************
+** RequetsDispatcherThread
+** requestdispatcherthread.h/.cpp
+**
+** Yann Lederrey and Joel Schär
+**
+** Dispatches the incomming requests and starts each of them in a new request processing thread.
+**
+**/
+
 #ifndef REQUESTDISPATCHERTHREAD_H
 #define REQUESTDISPATCHERTHREAD_H
 #include <QObject>
@@ -6,6 +16,7 @@
 #include "abstractbuffer.h"
 #include "request.h"
 #include "response.h"
+#include "requestprocess.h"
 
 class RequestDispatcherThread: public QThread
 {
