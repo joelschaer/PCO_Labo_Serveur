@@ -29,7 +29,7 @@ public:
         monitorIn();
 
         if(nbElements == bufferSize){
-            wait(&notFull);
+            wait(notFull);
         }
         elements[writePointer] = item;
         writePointer = (writePointer + 1) % bufferSize;
@@ -45,10 +45,10 @@ public:
         monitorIn();
 
         if(nbElements == 0){
-            wait(&notEmpty);
+            wait(notEmpty);
         }
         item = elements[readPointer];
-        readPointer = (readPointer + 1) & bufferSize;
+        readPointer = (readPointer + 1) % bufferSize;
         nbElements --;
 
         signal(notFull);

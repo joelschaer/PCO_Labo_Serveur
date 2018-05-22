@@ -1,6 +1,7 @@
 #include "requestdispatcherthread.h"
 #include "request.h"
 #include <QDebug>
+#include "requestprocess.h"
 
 void RequestDispatcherThread::run()
 {
@@ -11,5 +12,7 @@ void RequestDispatcherThread::run()
         if (hasDebugLog)
             qDebug() << "Got a request to handle, start thread";
         // create thread for request handling
+        RequestProcess* process = new RequestProcess(req, responses, hasDebugLog);
+        process->start();
     }
 }

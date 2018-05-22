@@ -63,13 +63,13 @@ FileServer::FileServer(quint16 port, bool debug, QObject *parent) :
     hasDebugLog(debug)
 {
     // requests = new... TODO
-    requests = new BufferN(1024);
+    requests = new BufferN<Request>(1024);
 
     // responses = new... TODO
-    responses = new BufferN(1024);
+    responses = new BufferN<Response>(1024);
 
     // reqDispatcher = new... TODO
-    reqDispatcher = new RequestDispatcherThread(requests, hasDebugLog);
+    reqDispatcher = new RequestDispatcherThread(requests, responses, hasDebugLog);
     reqDispatcher->start();
 
     respDispatcher = new ResponseDispatcherThread(responses, hasDebugLog);
