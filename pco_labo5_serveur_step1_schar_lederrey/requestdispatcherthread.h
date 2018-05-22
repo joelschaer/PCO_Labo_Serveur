@@ -17,6 +17,7 @@
 #include "request.h"
 #include "response.h"
 #include "requestprocess.h"
+#include <QList>
 
 class RequestDispatcherThread: public QThread
 {
@@ -35,6 +36,7 @@ protected:
 private:
     AbstractBuffer<Request>* requests;
     AbstractBuffer<Response>* responses;
+    QList<RequestProcessing*> processthreads;
     bool hasDebugLog;
 };
 
