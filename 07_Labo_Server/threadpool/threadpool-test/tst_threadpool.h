@@ -6,6 +6,7 @@
 #include <QTime>
 
 #include "threadpool.h"
+#include "runnable.h"
 
 #define RUNTIME 10000
 #define RUNTIMEINMS 10
