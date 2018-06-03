@@ -28,20 +28,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     tst_threadpool.cpp \
-    threadpool.cpp \
-    threadrunnable.cpp \
-    thread.cpp \
-    ../fileserver/hoaremonitor.cpp
+  ../fileserver/threadpool.cpp \
+  ../fileserver/thread.cpp \
+  ../fileserver/hoaremonitor.cpp \
+
 
 HEADERS += \
-  #../fileserver/threadpool.h \
-    ../fileserver/hoaremonitor.h \
-    ../fileserver/abstractbuffer.h \
+  ../fileserver/threadpool.h \
+  ../fileserver/thread.h \
+  ../fileserver/hoaremonitor.h \
     tst_threadpool.h \
-    threadpool.h \
     runnable.h \
-    threadrunnable.h \
-    thread.h
 
 INCLUDEPATH += \
     ../fileserver

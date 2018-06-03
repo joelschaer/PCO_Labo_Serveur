@@ -17,6 +17,7 @@
 #include "request.h"
 #include "response.h"
 #include "requestprocess.h"
+#include "threadpool.h"
 #include <QList>
 
 class RequestDispatcherThread: public QThread
@@ -28,6 +29,8 @@ public:
         if (hasDebugLog)
             qDebug() << "Created request dispatcher thread";
         qRegisterMetaType<Request>("Request");
+
+        pool = new ThreadPool(10);
     }
 
 protected:
@@ -38,6 +41,7 @@ private:
     AbstractBuffer<Response>* responses;
     QList<RequestProcessing*> processthreads;
     bool hasDebugLog;
+    ThreadPool* pool;
 };
 
 #endif // REQUESTDISPATCHERTHREAD_H

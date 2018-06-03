@@ -11,4 +11,6 @@ void RequestProcessing::run(){
 
     // push the response to the response buffer
     responses->put(response);
+
+    finished = true;
 }

@@ -15,7 +15,9 @@ SOURCES += \
     responsedispatcherthread.cpp \
     hoaremonitor.cpp \
     requestdispatcherthread.cpp \
-    requestprocess.cpp
+    requestprocess.cpp \
+    threadpool.cpp \
+    thread.cpp
 
 HEADERS += \
     fileserver.h \
@@ -28,7 +30,10 @@ HEADERS += \
     hoaremonitor.h \
     buffern.h \
     requestdispatcherthread.h \
-    requestprocess.h
+    requestprocess.h \
+    threadpool.h \
+    thread.h \
+    runnable.h
 
 EXAMPLE_FILES += fileclient.html
 
