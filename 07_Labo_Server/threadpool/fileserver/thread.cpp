@@ -1,7 +1,6 @@
-#include "thread.h"
 #include "threadpool.h"
 
-void Thread::runRunnable(Runnable* runnable){
+void ThreadPool::Thread::runRunnable(Runnable* runnable){
     mutex.lock();
     this->runnable = runnable;
     needRun = true;
@@ -9,7 +8,7 @@ void Thread::runRunnable(Runnable* runnable){
     mutex.unlock();
 }
 
-void Thread::run(){
+void ThreadPool::Thread::run(){
     while(!QThread::currentThread()->isInterruptionRequested()){
         mutex.lock();
         while(needRun == false && running == true){
@@ -29,7 +28,7 @@ void Thread::run(){
             needRun = false;
 
             // if it should keep running indicateds that the thread is ready for a new job
-            if(running = true){
+            if(running == true){
                 pool->jobDone(this);
             }
         }
@@ -39,7 +38,7 @@ void Thread::run(){
     pool->stoppedThread(this);
 }
 
-void Thread::stopThread(){
+void ThreadPool::Thread::stopThread(){
     mutex.lock();
     QTextStream(stdout) << runnable->id() << "stopped" << endl;
     running = false;

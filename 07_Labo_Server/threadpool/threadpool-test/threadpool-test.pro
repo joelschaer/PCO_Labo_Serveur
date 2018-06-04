@@ -35,7 +35,6 @@ SOURCES += \
 
 HEADERS += \
   ../fileserver/threadpool.h \
-  ../fileserver/thread.h \
   ../fileserver/hoaremonitor.h \
     tst_threadpool.h \
     runnable.h \
