@@ -10,7 +10,7 @@ void Thread::runRunnable(Runnable* runnable){
 }
 
 void Thread::run(){
-    while(true){
+    while(!QThread::currentThread()->isInterruptionRequested()){
         mutex.lock();
         while(needRun == false && running == true){
             cond.wait(&mutex);
@@ -27,19 +27,16 @@ void Thread::run(){
             mutex.lock();
 
             needRun = false;
+
+            // if it should keep running indicateds that the thread is ready for a new job
+            if(running = true){
+                pool->jobDone(this);
+            }
         }
 
         mutex.unlock();
-
-        if(QThread::currentThread()->isInterruptionRequested()){
-            QTextStream(stdout) << runnable->id() << "ended" << endl;
-            pool->stoppedThread(this);
-            return;
-        }
-
-        pool->jobDone(this);
-
     }
+    pool->stoppedThread(this);
 }
 
 void Thread::stopThread(){

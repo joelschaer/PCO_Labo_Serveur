@@ -1,3 +1,12 @@
+/*******************************
+** ThreadPool
+** threadpool.h/.cpp
+**
+** Yann Lederrey and Joel Schär
+**
+** Manages the threads to make them execute jobs.
+**
+**/
 #ifndef THREADPOOL_H
 #define THREADPOOL_H
 
@@ -43,8 +52,13 @@ public:
 
         while(!stoppedThreads.empty()){
             Thread* thread = stoppedThreads.first();
-            delete thread;
             stoppedThreads.pop_front();
+            if(thread->isFinished()){
+                delete thread;
+            }
+            else{
+                stoppedThreads.push_back(thread);
+            }
         }
         mutex.unlock();
 

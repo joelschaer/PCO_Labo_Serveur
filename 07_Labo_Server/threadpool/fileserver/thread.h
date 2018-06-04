@@ -1,3 +1,12 @@
+/*******************************
+** Thread
+** Thread.h/.cpp
+**
+** Yann Lederrey and Joel Schär
+**
+** Threads that will be waiting for taskes given by the thread pool.
+**
+**/
 #ifndef THREAD_H
 #define THREAD_H
 
