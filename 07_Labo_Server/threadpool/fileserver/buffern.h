@@ -34,6 +34,13 @@ public:
         }
     }
 
+    ~BufferN(){
+        while(nbElements>0){
+            this->get();
+        }
+        delete elements;
+    }
+
     /*
      * adding an element to the buffer
      */

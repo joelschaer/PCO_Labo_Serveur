@@ -35,7 +35,6 @@ void ThreadPool::Thread::run(){
 
         mutex.unlock();
     }
-    pool->stoppedThread(this);
 }
 
 void ThreadPool::Thread::stopThread(){

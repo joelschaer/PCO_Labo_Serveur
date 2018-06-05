@@ -4,7 +4,7 @@
 **
 ** Yann Lederrey and Joel Schär
 **
-** Manages the threads to make them execute jobs.
+** Manages a pool of threads and attributes jobs to the one that are free.
 **
 **/
 #ifndef THREADPOOL_H
@@ -31,9 +31,9 @@ private:
     int elementsToRun;
     QList<Thread*> threadList;
     AbstractBuffer<Thread*>* pendingThreadBuffer;
-    QList<Thread*> stoppedThreads;
-    QWaitCondition cond, done;
-    QMutex mutex, bufferMutex;
+    QWaitCondition cond;
+    QMutex mutex;
+
 
     class Thread: public QThread
     {
@@ -78,26 +78,24 @@ public:
     ~ThreadPool(){
         mutex.lock();
 
+        // put all thread in terminating mod.
         for(Thread* thread: threadList){
             thread->stopThread();
         }
 
+        // join all threads and delete the pointers
         while(runningThreads > 0){
-            done.wait(&mutex);
+            Thread* thread = threadList.first();
+            threadList.pop_front();
+            thread->wait();
+            workingThreads--;
+            runningThreads--;
+            delete thread;
         }
 
-        while(!stoppedThreads.empty()){
-            Thread* thread = stoppedThreads.first();
-            stoppedThreads.pop_front();
-            if(thread->isFinished()){
-                delete thread;
-            }
-            else{
-                stoppedThreads.push_back(thread);
-            }
-        }
+        delete pendingThreadBuffer;
+
         mutex.unlock();
-
     }
 
     /**
@@ -111,12 +109,6 @@ public:
      * @param thread
      */
     void jobDone(Thread* thread);
-
-    /**
-     * @brief stoppedThred il called by each thread when it stoppes running and is ready for delete.
-     * @param thread
-     */
-    void stoppedThread(Thread* thread);
 
 };
 

@@ -16,9 +16,6 @@ void RequestDispatcherThread::run()
         // create thread for processing the request
         RequestProcessing* processing = new RequestProcessing(req, responses, hasDebugLog,  id);
 
-        // keeps thread pointer in a list to check if they're finished and delete them at next request.
-        //processthreads.push_back(processing);
-        //processing->start();
         pool->start(processing);
 
     }

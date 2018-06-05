@@ -4,6 +4,7 @@
 template<typename T>
 class AbstractBuffer {
 public:
+    virtual ~AbstractBuffer(){}
     virtual void put(T item) = 0;
     virtual T get() = 0;
 };

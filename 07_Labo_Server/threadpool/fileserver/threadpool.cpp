@@ -5,6 +5,7 @@ void ThreadPool::start(Runnable* runnable){
 
     mutex.lock();
 
+    // create a new thread if maximum is not reached and all threads are busy
     if(runningThreads < maxThreadCount && workingThreads == runningThreads){
         Thread* newThread = new Thread(this);
         threadList.push_back(newThread);
@@ -14,6 +15,7 @@ void ThreadPool::start(Runnable* runnable){
         QTextStream(stdout) << "starting new thread" << runningThreads << endl;
     }
 
+    // wait for a thread to be ready for a new job
     while(workingThreads == maxThreadCount){
         waitingThreads++;
         QTextStream(stdout) << runnable->id() << " waiting" << endl;
@@ -26,7 +28,6 @@ void ThreadPool::start(Runnable* runnable){
     mutex.unlock();
 
     thread->runRunnable(runnable);
-
 }
 
 void ThreadPool::jobDone(Thread* thread){
@@ -40,14 +41,5 @@ void ThreadPool::jobDone(Thread* thread){
 
     pendingThreadBuffer->put(thread);
 
-    mutex.unlock();
-}
-
-void ThreadPool::stoppedThread(Thread* thread){
-    mutex.lock();
-    workingThreads--;
-    runningThreads--;
-    stoppedThreads.push_back(thread);
-    done.wakeOne();
     mutex.unlock();
 }
