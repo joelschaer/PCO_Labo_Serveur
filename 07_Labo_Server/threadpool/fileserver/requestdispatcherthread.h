@@ -27,6 +27,12 @@ class RequestDispatcherThread: public QThread
     Q_OBJECT
 
 public:
+    /**
+     * @brief RequestDispatcherThread constuctor of the requestDispatcher
+     * @param requests Pointer to the requests buffer
+     * @param responses Pointer to the responses buffer
+     * @param hasDebugLog
+     */
     RequestDispatcherThread(AbstractBuffer<Request>* requests, AbstractBuffer<Response>* responses, bool hasDebugLog): requests(requests), responses(responses), hasDebugLog(hasDebugLog) {
         if (hasDebugLog)
             qDebug() << "Created request dispatcher thread";
@@ -36,14 +42,16 @@ public:
     }
 
 protected:
+    /**
+     * @brief run is running in a thread,it is waiting for requests to be put in the buffer, creates the runnable objects and transmits them to the thread poolfor execution.
+     */
     void run();
 
 private:
-    AbstractBuffer<Request>* requests;
-    AbstractBuffer<Response>* responses;
-    QList<RequestProcessing*> processthreads;
+    AbstractBuffer<Request>* requests;         // buffer pointer where the requests ready for handle are enterring
+    AbstractBuffer<Response>* responses;       // buffre pointer where the handled requests should be put
     bool hasDebugLog;
-    ThreadPool* pool;
+    ThreadPool* pool;                          // thread pool which is goining to handle the thread taht will do the job.
 };
 
 #endif // REQUESTDISPATCHERTHREAD_H

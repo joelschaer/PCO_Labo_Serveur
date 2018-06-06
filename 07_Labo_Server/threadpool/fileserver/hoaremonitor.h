@@ -17,6 +17,11 @@ protected:
 
     HoareMonitor();
 
+    /**
+     * @brief The Condition class is a class implementing a waiting condition.
+     * Multiple threads can be waiting on it. It keep a fifo list of the waiting threads
+     * by using a semaphore and a counter to keep the number of waiting threads.
+     */
     class Condition
     {
         friend HoareMonitor;
@@ -44,6 +49,7 @@ protected:
      * This function implements the waiting on a condition, as defined by Hoare.
      * When the thread is waken by a signal, it continues with the mutual
      * exclusion.
+     * @ param cond Condition on which the monitor will wait on
      */
     void wait(Condition &cond);
 
@@ -52,6 +58,7 @@ protected:
      * Hoare. If no thread is waiting for the condition, then nothing happens,
      * but if there is one the thread calling signal is suspended, waiting for
      * the other one to finish.
+     * @ param cond Condition that will be signal to wake up a waiting thread.
      */
     void signal(Condition &cond);
 
