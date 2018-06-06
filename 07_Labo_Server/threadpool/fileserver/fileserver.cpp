@@ -56,19 +56,18 @@
 #include "request.h"
 #include "buffern.h"
 
+#define MAX_REQUESTS
+
 FileServer::FileServer(quint16 port, bool debug, QObject *parent) :
     QObject(parent),
     websocketServer(new QWebSocketServer(QStringLiteral("File Server"),
                                 QWebSocketServer::NonSecureMode, this)),
     hasDebugLog(debug)
 {
-    // requests = new... TODO
     requests = new BufferN<Request>(1024);
 
-    // responses = new... TODO
     responses = new BufferN<Response>(1024);
 
-    // reqDispatcher = new... TODO
     reqDispatcher = new RequestDispatcherThread(requests, responses, hasDebugLog);
     reqDispatcher->start();
 
@@ -113,7 +112,12 @@ void FileServer::processTextMessage(QString message)
         qDebug() << "Message received:" << message;
     if (pClient) {
         Request req(message, pClient->origin());
-        requests->put(req);
+
+        // use tryPut and not put thereby the server memory will not be overloaded
+        if(!requests->tryPut(req)){
+            qDebug() << "Server overloaded: request dropped";
+            pClient->sendTextMessage(Response(req, "server overloaded, try later").toJson());
+        }
     }
 }
 

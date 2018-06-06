@@ -20,6 +20,8 @@
 #include "threadpool.h"
 #include <QList>
 
+#define POOL_SIZE 4
+
 class RequestDispatcherThread: public QThread
 {
     Q_OBJECT
@@ -30,7 +32,7 @@ public:
             qDebug() << "Created request dispatcher thread";
         qRegisterMetaType<Request>("Request");
 
-        pool = new ThreadPool(10);
+        pool = new ThreadPool(POOL_SIZE);
     }
 
 protected:

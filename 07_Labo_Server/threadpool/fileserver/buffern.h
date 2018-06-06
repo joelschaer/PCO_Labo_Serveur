@@ -41,8 +41,9 @@ public:
         delete elements;
     }
 
-    /*
-     * adding an element to the buffer
+    /**
+     * @brief put adding an element to the buffer
+     * @param item
      */
     void put(T item){
 
@@ -59,8 +60,35 @@ public:
         monitorOut();
     }
 
-    /*
-     * taking an element out of the buffer
+    /**
+     * @brief tryPut adding an element to the buffer unless the maximum sizes is reached.
+     * If the buffer is full the producer doesn't wait but gets rejected
+     * @param item
+     */
+    bool tryPut(T item){
+        bool ok;
+
+        monitorIn();
+
+        if(nbElements == bufferSize){
+            ok = false;
+        }else{
+            elements[writePointer] = item;
+            writePointer = (writePointer + 1) % bufferSize;
+            nbElements ++;
+
+            signal(notEmpty);
+            ok = true;
+        }
+
+        monitorOut();
+
+        return ok;
+    }
+
+    /**
+     * @brief get taking an element out of the buffer
+     * @return
      */
     T get (void){
         T item;

@@ -6,6 +6,7 @@ class AbstractBuffer {
 public:
     virtual ~AbstractBuffer(){}
     virtual void put(T item) = 0;
+    virtual bool tryPut(T item) = 0;
     virtual T get() = 0;
 };
 
