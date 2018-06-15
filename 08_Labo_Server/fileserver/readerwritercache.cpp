@@ -15,8 +15,9 @@ void ReaderWriterCache::putResponse(Response &response) {
    lock.lockWriting();
 
    TimestampedResponse resp;
+
    resp.response = response;
-   resp.timestamp = QDateTime::currentDateTime().::currentTimeMillis();
+   resp.timestamp = QDateTime::currentSecsSinceEpoch();
    map.insert(response.getRequest(),resp);
    lock.unlockWriting();
 }
