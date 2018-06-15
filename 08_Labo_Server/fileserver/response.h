@@ -3,26 +3,33 @@
 
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "request.h"
 
 class Response {
 private:
-    QString request;
+    Request request;
     QString response;
 
 public:
-    Response(const QString request, const QString response): request(request), response(response) {}
+    Response(){}
+    Response(Request request, QString response):
+        request(request), response(response) {}
 
     QString toJson() {
         QJsonObject obj;
-        obj["request"] = request;
+        obj["request"] = request.getFilePath();
         obj["response"] = response;
         QJsonDocument doc(obj);
         QString strJson(doc.toJson(QJsonDocument::Compact));
         return strJson;
     }
 
-    QString getRequest(){
+    Request getRequest() {
         return request;
+    }
+
+    QString getResponse() {
+        return response;
     }
 };
 #endif // RESPONSE_H

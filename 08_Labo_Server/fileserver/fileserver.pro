@@ -16,7 +16,8 @@ SOURCES += \
 HEADERS += \
     fileserver.h \
     filereader.h \
-    response.h
+    response.h \
+    request.h
 
 EXAMPLE_FILES += fileclient.html
 
