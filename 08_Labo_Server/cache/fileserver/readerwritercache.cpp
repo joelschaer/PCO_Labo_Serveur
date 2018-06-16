@@ -8,7 +8,7 @@ ReaderWriterCache::ReaderWriterCache(int invalidationDelaySec, int staleDelaySec
     invalidationDelaySec(invalidationDelaySec), staleDelaySec(staleDelaySec)
 {
     timer = new InvalidationTimer(this);
-    timer->start();
+    timer->start(); // We start the testing of elements in cache
 }
 
 ReaderWriterCache::~ReaderWriterCache()
@@ -23,7 +23,7 @@ void ReaderWriterCache::putResponse(Response &response) {
 
    TimestampedResponse tr;
    tr.response = response;
-   tr.timestamp = QDateTime::currentSecsSinceEpoch();
+   tr.timestamp = QDateTime::currentSecsSinceEpoch(); //Actual timestamp since 1970
    map.insert(response.getRequest().getFilePath(), tr);
 
    QTextStream(stdout) << "entry put in cache" << endl;
@@ -39,10 +39,10 @@ Option<Response> ReaderWriterCache::tryGetCachedResponse(Request &request) {
 
         QTextStream(stdout) << "entry found in cache" << endl;
 
-        return Option<Response>::some(tr.response);
+        return Option<Response>::some(tr.response); //return a Option based on the response.
     }
     else{
         lock.unlockReading();
-        return Option<Response>::none();
+        return Option<Response>::none(); //return an empty Option
     }
 }
