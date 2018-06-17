@@ -34,8 +34,8 @@ private:
     ** element was put in the map
     */
 	struct TimestampedResponse {
-            Response response;
-            long timestamp;
+            Response response;  // associated response
+            long timestamp;     // timestamp of the response generation
 	};
 
     /*  Internal class InvalidationTimer who test every <invalidationDelaySec> if the added request
@@ -46,7 +46,7 @@ private:
         friend ReaderWriterCache;
 
 	private:
-		ReaderWriterCache* cache;
+        ReaderWriterCache* cache;   // pointer to external class
 
 	public:
         /**

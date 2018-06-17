@@ -24,24 +24,24 @@ class ThreadPool
     class Thread;
 
 private:
-    int maxThreadCount;
-    int runningThreads;
-    int workingThreads;
-    int waitingThreads;
-    int elementsToRun;
-    QList<Thread*> threadList;
-    AbstractBuffer<Thread*>* pendingThreadBuffer;
-    QWaitCondition cond;
-    QMutex mutex;
+    int maxThreadCount;     // max possible threads
+    int runningThreads;     // number of running threads
+    int workingThreads;     // number of working threads
+    int waitingThreads;     // number of threads waiting for a job
+    int elementsToRun;      // number of elements that have to be runned
+    QList<Thread*> threadList;  // list of the started threads pointers
+    AbstractBuffer<Thread*>* pendingThreadBuffer;   // buffer of pending threads
+    QWaitCondition cond;        // mesa monitor condition
+    QMutex mutex;           // mutual exclusion variable
 
 
     class Thread: public QThread
     {
     private:
-        Runnable* runnable;
-        QMutex mutex;
-        QWaitCondition cond;
-        ThreadPool* pool;
+        Runnable* runnable;     // pointer to the runnable element
+        QMutex mutex;           // mutual exclusion variable
+        QWaitCondition cond;    // mesa monito condition
+        ThreadPool* pool;       // threadpool pointer
         bool needRun;  // the job in runnable is a job that needs to be runned
         bool running;  // set at false when the thread needs to be stopped
 

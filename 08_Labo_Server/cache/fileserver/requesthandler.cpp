@@ -7,6 +7,7 @@ Response RequestHandler::handle()
     if (hasDebugLog)
         qDebug() << "Handling request '" << this->request.getFilePath() << "'...";
     FileReader reader(this->request.getFilePath(), this->hasDebugLog);
+
     if (reader.fileExists()) {
         return Response(request, reader.readAll());
     } else {

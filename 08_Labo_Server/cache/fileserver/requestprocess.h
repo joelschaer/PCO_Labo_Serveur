@@ -18,10 +18,10 @@
 class RequestProcessing: public Runnable
 {
 private:
-    Request request;
-    AbstractBuffer<Response>* responses;
+    Request request;        // request to be handelt
+    AbstractBuffer<Response>* responses;    // response buffer pointer where to put the response in
     bool hasDebugLog;
-    bool finished;
+    bool finished;          // keeps track if the handel is donne
     QString m_id;
     ReaderWriterCache *cache;
 
@@ -34,10 +34,19 @@ protected:
     void run();
 
 public:
+
+    /**
+     * @brief isFinished (getter)
+     * @return isFinished value
+     */
     bool isFinished(){
         return finished;
     }
 
+    /**
+     * @brief id (getter
+     * @return value of id
+     */
     QString id(){
         return m_id;
     }

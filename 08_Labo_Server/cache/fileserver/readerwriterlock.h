@@ -21,12 +21,12 @@ class ReaderWriterLock
 
 public:
 
-    QSemaphore mutexReaders;
-    QSemaphore mutexWriters;
-    QSemaphore writer;
-    QSemaphore reader;
-    QSemaphore mutex;
-    int nbReaders, nbWriters;
+    QSemaphore mutexReaders;    // mutual exclusion for the reader access
+    QSemaphore mutexWriters;    // mutual exclusion for the writer access
+    QSemaphore writer;          // writers waiting queue
+    QSemaphore reader;          // readers witing queue
+    QSemaphore mutex;           // global mutual exclusion
+    int nbReaders, nbWriters;   // reader / writer counter
 
     /**
      * @brief constructor of the locker.
